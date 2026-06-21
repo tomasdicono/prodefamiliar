@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prode Mundial Familiar 2026</title>
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+  <div class="container">
+    
+    <!-- Firebase Status Banner -->
+    <div id="firebase-status-banner" class="status-banner local-mode">
+      <span class="status-icon">⚪</span> 
+      <span class="status-text">Modo Local: Cambios guardados solo en este navegador. Configura Firebase para jugar en familia.</span>
+    </div>
+    
+    <!-- HEADER -->
+    <header>
+      <div class="logo-section">
+        <h1>🏆 Prode Familiar 2026</h1>
+        <p>Predicciones y resultados de la Copa Mundial en directo</p>
+      </div>
+
+      <!-- Cambiar de Usuario -->
+      <div class="user-selector-container">
+        <label for="user-select-dropdown">Participante:</label>
+        <div class="select-wrapper">
+          <select id="user-select-dropdown">
+            <!-- Cargado dinámicamente por JS -->
+          </select>
+        </div>
+        <button class="add-user-btn" id="open-add-user-btn" title="Agregar familiar">+</button>
+      </div>
+    </header>
+
+    <!-- ACTIVE USER DASHBOARD -->
+    <section class="active-user-dashboard">
+      <div class="user-profile-info">
+        <h2>Miembro Activo</h2>
+        <div class="profile-name" id="active-user-display-name">Selecciona Usuario</div>
+      </div>
+      
+      <div class="stat-box">
+        <span class="stat-label">Puntaje Total</span>
+        <span class="stat-val" id="user-pts-counter">0 pts</span>
+      </div>
+
+      <div class="stat-box">
+        <span class="stat-label">Partidos Pronosticados</span>
+        <span class="stat-val" id="user-predictions-counter">0</span>
+      </div>
+
+      <div class="stat-box">
+        <span class="stat-label">Multiplicadores</span>
+        <div id="multimoshi-status-box">
+          <!-- Cargado por JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- CUERPO PRINCIPAL (GRID) -->
+    <main class="main-grid">
+      
+      <!-- COLUMNA IZQUIERDA: LEADERBOARD, SYNC Y REGLAS -->
+      <div class="left-column">
+        
+        <!-- LEADERBOARD (TABLA DE POSICIONES) -->
+        <section class="section-panel">
+          <div class="panel-header">
+            <h2><span class="panel-icon">📊</span> Tabla de Posiciones</h2>
+          </div>
+          <div class="leaderboard-container">
+            <table class="leaderboard-table">
+              <thead>
+                <tr>
+                  <th>Puesto</th>
+                  <th>Participante</th>
+                  <th>Puntos</th>
+                  <th>Pronósticos</th>
+                  <th>Aciertos</th>
+                  <th>Moshi</th>
+                </tr>
+              </thead>
+              <tbody id="leaderboard-body">
+                <!-- Cargado por JS -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- REGLAS DEL JUEGO -->
+        <section class="section-panel">
+          <div class="panel-header">
+            <h2><span class="panel-icon">📝</span> Reglas de Puntuación</h2>
+          </div>
+          <div class="rules-list">
+            <div class="rule-item">
+              <span class="rule-pts">6 pts</span>
+              <span class="rule-desc">Acierto del <strong>resultado exacto y ganador</strong> (goles de ambos equipos).</span>
+            </div>
+            <div class="rule-item">
+              <span class="rule-pts">3 pts</span>
+              <span class="rule-desc">Acierto del <strong>ganador o empate</strong> pero sin el resultado exacto.</span>
+            </div>
+            <div class="rule-item">
+              <span class="rule-pts">+1 pto</span>
+              <span class="rule-desc">Por cada equipo al que le aciertes la <strong>cantidad exacta de goles</strong>.</span>
+            </div>
+            <div class="rule-item" style="border-color: var(--accent-violet);">
+              <span class="rule-pts" style="background: rgba(109,40,217,0.08); color: var(--accent-violet); border-color: rgba(109,40,217,0.15); display: inline-flex; align-items: center; justify-content: center; gap: 5px; padding: 4px 10px;">
+                <svg class="moshi-icon active" style="width: 18px; height: 18px;" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M 28 42 C 22 30, 18 12, 30 8 C 42 4, 44 24, 46 36 C 48 36, 52 36, 54 36 C 56 24, 58 4, 70 8 C 82 12, 78 30, 72 42 C 84 48, 86 64, 72 76 C 62 86, 38 86, 28 76 C 14 64, 16 48, 28 42 Z" />
+                </svg>
+                2x
+              </span>
+              <span class="rule-desc"><strong>Multiplicador "Multimoshi":</strong> Duplica los puntos del partido. Máximo 2 comodines por usuario en todo el torneo.</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- SINCRONIZACIÓN Y RESPALDOS -->
+        <section class="section-panel">
+          <div class="panel-header">
+            <h2><span class="panel-icon">🔄</span> Compartir y Sincronizar</h2>
+          </div>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px; line-height: 1.4;">
+            Puedes descargar el archivo con los pronósticos y mandarlo por WhatsApp a tu familia para sincronizar los puntajes de todos.
+          </p>
+          <div class="sync-panel-content">
+            <button class="sync-btn" id="export-db-btn">
+              <span>📥</span> Guardar JSON
+            </button>
+            <button class="sync-btn" id="import-db-btn">
+              <span>📤</span> Cargar JSON
+            </button>
+            <input type="file" id="import-db-input" accept=".json" style="display: none;">
+          </div>
+        </section>
+
+      </div>
+
+      <!-- COLUMNA DERECHA: FIXTURE Y PRONÓSTICOS -->
+      <div class="right-column">
+        
+        <!-- TABS FILTROS -->
+        <div class="tabs-container">
+          <button class="tab-btn active" data-tab="all">Todos los Partidos</button>
+          <button class="tab-btn" data-tab="group">Fase de Grupos</button>
+          <button class="tab-btn" data-tab="knockout">Fase de Eliminatorias</button>
+          <button class="tab-btn" data-tab="pending">Pendientes</button>
+          <button class="tab-btn" data-tab="completed">Finalizados</button>
+        </div>
+
+        <!-- LISTA DE PARTIDOS -->
+        <div class="matches-grid-wrapper" id="matches-list">
+          <!-- Cargado dinámicamente por JS -->
+        </div>
+
+      </div>
+
+    </main>
+
+    <!-- CONSOLA DE ADMINISTRACIÓN (COLLAPSIBLE ACCORDION) -->
+    <footer style="margin-top: 50px;">
+      <section class="section-panel admin-accordion" style="margin-bottom: 0;">
+        <div class="admin-header" id="admin-toggle-header">
+          <h2>🔧 Panel del Administrador (Carga de Resultados Reales)</h2>
+          <span class="admin-arrow">▼</span>
+        </div>
+        
+        <div class="admin-content collapsed" id="admin-content-section">
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px;">
+            Utiliza este panel para ingresar los resultados oficiales de los partidos. Al guardar, los puntajes y la tabla de posiciones de todos los participantes se actualizarán en tiempo real. También puedes configurar los nombres de los equipos para las llaves de eliminación directa a medida que se vayan conociendo.
+          </p>
+          
+          <!-- Lista de Partidos del Administrador -->
+          <div id="admin-matches-list">
+            <!-- Cargado por JS -->
+          </div>
+
+          <!-- Crear Partido Personalizado -->
+          <div class="admin-create-match-form">
+            <h3>➕ Agregar Partido al Calendario</h3>
+            <div class="form-grid">
+              <div class="form-field">
+                <label for="new-match-type">Tipo de Fase</label>
+                <select id="new-match-type">
+                  <option value="group">Fase de Grupos</option>
+                  <option value="knockout" selected>Eliminación Directa</option>
+                </select>
+              </div>
+              
+              <div class="form-field" id="new-match-group-wrapper" style="display: none;">
+                <label for="new-match-group">Grupo</label>
+                <input type="text" id="new-match-group" placeholder="A">
+              </div>
+
+              <div class="form-field" id="new-match-stage-wrapper">
+                <label for="new-match-stage">Fase / Ronda</label>
+                <input type="text" id="new-match-stage" placeholder="Dieciseisavos, Octavos...">
+              </div>
+
+              <div class="form-field">
+                <label for="new-match-date">Fecha y Hora</label>
+                <input type="datetime-local" id="new-match-date">
+              </div>
+            </div>
+
+            <div class="form-grid" style="grid-template-columns: 1fr 1fr;">
+              <div class="form-field">
+                <label for="new-match-team-a">Equipo Local (A)</label>
+                <input type="text" id="new-match-team-a" placeholder="Argentina">
+              </div>
+              <div class="form-field">
+                <label for="new-match-team-b">Equipo Visitante (B)</label>
+                <input type="text" id="new-match-team-b" placeholder="Francia">
+              </div>
+            </div>
+
+            <button class="confirm-new-match-btn" id="confirm-new-match-btn">Agregar Partido</button>
+          </div>
+
+          <!-- Botón de peligro para resetear todo -->
+          <div style="margin-top: 30px; border-top: 1px solid var(--border-glass); padding-top: 20px; display: flex;">
+            <button class="danger-reset-btn" id="danger-reset-btn">⚠️ Reiniciar Todo el Prode</button>
+          </div>
+
+        </div>
+      </section>
+    </footer>
+
+    <!-- MODAL AGREGAR PARTICIPANTE -->
+    <div class="modal-overlay" id="add-user-modal">
+      <div class="modal-card">
+        <h2>Agregar Familiar al Prode</h2>
+        <input type="text" id="new-user-name" class="modal-input" placeholder="Nombre (ej: Tía Laura, Primo Juan)" maxlength="20" style="margin-bottom: 12px;">
+        
+        <label for="new-user-pin" style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 5px; font-weight: 500; text-align: left;">PIN de Seguridad Opcional (4 números):</label>
+        <input type="password" id="new-user-pin" class="modal-input" placeholder="Ej: 1234 (dejar vacío si no deseas PIN)" maxlength="4" pattern="[0-9]*" inputmode="numeric" style="margin-bottom: 20px;">
+        
+        <div class="modal-buttons">
+          <button class="btn-secondary" id="close-modal-btn">Cancelar</button>
+          <button class="btn-primary" id="confirm-add-user-btn">Agregar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL VERIFICACIÓN DE PIN -->
+    <div class="modal-overlay" id="pin-auth-modal">
+      <div class="modal-card">
+        <h2>🔒 Ingresar PIN de Seguridad</h2>
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px; text-align: left;">
+          Este participante está protegido. Ingresa su PIN de 4 dígitos para poder editar sus pronósticos en este dispositivo.
+        </p>
+        <input type="password" id="auth-user-pin" class="modal-input" placeholder="Ingresar PIN" maxlength="4" pattern="[0-9]*" inputmode="numeric" style="margin-bottom: 20px; font-size: 1.5rem; letter-spacing: 10px; text-align: center;">
+        <div class="modal-buttons">
+          <button class="btn-secondary" id="close-pin-modal-btn">Cancelar</button>
+          <button class="btn-primary" id="confirm-pin-auth-btn">Verificar</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Firebase App & Firestore SDKs (compatibles con file://) -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+# Archivos del sistema
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# Archivos de respaldo locales del prode
+*.json
+!INITIAL_MATCHES.json # por si creas uno
+
+# Node/VSC
+node_modules/
+.vscode/
+.idea/
+.DS_Store
