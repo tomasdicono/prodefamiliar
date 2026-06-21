@@ -7,6 +7,7 @@ $RECYCLE.BIN/
 
 # Archivos de respaldo locales del prode
 *.json
+!vercel.json
 !INITIAL_MATCHES.json # por si creas uno
 
 # Node/VSC

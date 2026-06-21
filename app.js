@@ -2,7 +2,7 @@
 // Autor: Antigravity
 
 // CONFIGURACIÓN DE FIREBASE (Pega aquí las credenciales de tu proyecto de Firebase)
-const firebaseConfig = {
+const FIREBASE_CONFIG = {
   apiKey: "AIzaSyCmH0mLqyPUw-4gOpQc6i_2MgUeIXumycM",
   authDomain: "prode-familiar-7afc1.firebaseapp.com",
   databaseURL: "https://prode-familiar-7afc1-default-rtdb.firebaseio.com",
